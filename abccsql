@@ -1,0 +1,66 @@
+SELECT *
+FROM m_car_evaluation
+WHERE price < 500000
+ORDER BY evaluation_date ASC;
+
+-- 2
+SELECT *
+FROM m_owner
+WHERE LENGTH(o_name)>10
+AND address IS NULL
+ORDER BY o_name ASC;
+
+-- 3
+SELECT m_name, phone,
+ROUND(DATEDIFF(CURDATE(), birth_date)/365) AS age
+FROM m_mechanic
+WHERE (DATEDIFF (CURDATE(), birth_date)/365>= 30
+ORDER BY age DESC
+
+--4
+SELECT *
+FROM m_repair
+WHERE YEAR(start_date) <> YEAR(end_date)
+ORDER BY DATEDIFF(end_date,start_date) DESC
+
+--5
+SELECT license_plate_number, first_sell_date
+FROM m_car
+WHERE YEAR(first_sell_date) = 2011
+ORDER BY license_plate ASC
+
+--6
+SELECT color, COUNT(*) AS num_cars
+FROM m_car
+GROUP BY color
+ORDER BY num_cars DESC
+
+--7
+SELECT car_id, 
+COUNT (*) AS repair_count,
+AVG(repair_cost) AS avg_cost
+FROM m_repair
+WHERE workshop_id = 103
+GROUP BY car_id
+ORDER BY avg_cost ASC
+
+--8
+SELECT car_id,
+MAX (date_of_buy) AS latest_purchase_date
+FROM m_owns
+GROUP BY car_id
+ORDER BY latest_purchase_date DESC
+
+--9
+SELECT car_id
+FROM m_repair
+GROUP BY car_id
+WHERE COUNT(*)>4
+ORDER BY car_id
+
+--10
+SELECT SUM(repair_cost) AS total_cost
+FROM m_repair
+JOIN cars ON car_id = c_id
+WHERE license_plate_number = 'ABC201'
+
